@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: 
+  source:
+    repoURL: https://github.com/BennWigh/argocd-envs
+    targetRevision: HEAD
+    directory:
+      recurse: true
+    path: test/namespaces
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd

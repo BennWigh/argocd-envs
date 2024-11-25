@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd-resources
+  namespace: argocd
+spec:
+  description: Syncs ArgoCD Applications and Projects from https://github.com/BennWigh/argocd-envs
+  destinations:
+  - namespace: 'argocd'
+    server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+  - group: 'argoproj.io'
+    kind: 'AppProject'
+  - group: 'argoproj.io'
+    kind: 'Application'
+  sourceRepos:
+  - https://github.com/BennWigh/argocd-envs
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-projects
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: argocd-resources
+  source:
+    repoURL: https://github.com/BennWigh/argocd-envs
+    targetRevision: HEAD
+    path: projects
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-applications
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: argocd-resources
+  source:
+    repoURL: https://github.com/BennWigh/argocd-envs
+    targetRevision: HEAD
+    directory:
+      recurse: true
+    path: applications
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      namespace: argocd
+      jsonPointers:
+        - /spec/syncPolicy/automated
+        - /spec/source/targetRevision
+
+  syncPolicy:
+    syncOptions:
+    - RespectIgnoreDifferences=true
