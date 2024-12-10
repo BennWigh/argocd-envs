@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: 
+  project: argocd-resources
   source:
     repoURL: https://github.com/BennWigh/argocd-envs
     targetRevision: HEAD
