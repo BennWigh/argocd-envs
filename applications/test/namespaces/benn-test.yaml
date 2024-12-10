@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: argocd-resources
+  source:
+    repoURL: https://github.com/BennWigh/benn-test-helm
+    targetRevision: HEAD
+    directory:
+      recurse: true
+    path: benn-test
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd

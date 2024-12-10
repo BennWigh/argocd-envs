@@ -12,7 +12,7 @@ spec:
     targetRevision: HEAD
     directory:
       recurse: true
-    path: test/namespaces
+    path: applications/test/namespaces
 
   destination:
     server: https://kubernetes.default.svc
