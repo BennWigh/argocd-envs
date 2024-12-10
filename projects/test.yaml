@@ -8,7 +8,7 @@ metadata:
 spec:
   project: argocd-resources
   source:
-    repoURL: https://dev.azure.com/okamba/Infrastruktur/_git/argocd-resources
+    repoURL: https://github.com/BennWigh/argocd-envs
     targetRevision: HEAD
     path: projects
 
