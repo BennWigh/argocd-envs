@@ -1,21 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: AppProject
 metadata:
   name: my-ns-test
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: argocd-resources
-  source:
-    repoURL: https://github.com/BennWigh/argocd-envs
-    targetRevision: HEAD
-    path: projects
-
-  destination:
+  description: Syncs ArgoCD Applications and Projects from https://github.com/BennWigh/argocd-envs
+  destinations:
+  - namespace: 'my-ns-test'
     server: https://kubernetes.default.svc
-    namespace: my-ns-test
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
+  namespaceResourceWhitelist:
+  - group: 'argoproj.io'
+    kind: 'AppProject'
+  - group: 'argoproj.io'
+    kind: 'Application'
+  sourceRepos:
+  - https://github.com/BennWigh/argocd-envs
+  - https://github.com/BennWigh/benn-test-helm
