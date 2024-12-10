@@ -15,6 +15,7 @@ spec:
     kind: 'Application'
   sourceRepos:
   - https://github.com/BennWigh/argocd-envs
+  - https://github.com/BennWigh/benn-test-helm
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
