@@ -6,8 +6,6 @@ metadata:
 spec:
   description: Syncs ArgoCD Applications and Projects from https://github.com/BennWigh/argocd-envs
   destinations:
-  - namespace: 'argocd'
-    server: https://kubernetes.default.svc
   - namespace: 'my-ns-test'
     server: https://kubernetes.default.svc
   namespaceResourceWhitelist:
