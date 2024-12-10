@@ -1,19 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: benn-test
+  name: my-ns-prod-test
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: argocd-resources
   source:
-    repoURL: https://github.com/BennWigh/benn-test-helm
+    repoURL: https://github.com/BennWigh/argocd-envs
     targetRevision: HEAD
-    directory:
-      recurse: true
-    path: benn-test
+    path: projects
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: my-ns-prod-test
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
